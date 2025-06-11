@@ -8,11 +8,11 @@ let Choice;
 function getComputerChoice() {
      const randomNumber = Math.random()
 
-     if (randomNumber>0 && randomNumber<1/3){
+     if (randomNumber>=0 && randomNumber<1/3){
         return "ROCK" ; 
-     } else if (randomNumber>1/3 && randomNumber < 2/3){
+     } else if (randomNumber>=1/3 && randomNumber < 2/3){
        return "PAPER" ;
-     } else if (randomNumber>2/3 && randomNumber <1) {
+     } else if (randomNumber>=2/3 && randomNumber <1) {
       return "SCISSOR"; 
      }  
 }
@@ -21,13 +21,17 @@ function getComputerChoice() {
 
 function getHumanChoice() {
     Choice = prompt("Rock,Paper,Scissor").toUpperCase()
+
+   const Rock = "Rock"
+   const Paper = "Paper"
+   const Scissor = "Scissor"
      
-    if (Choice === "ROCK"){
+    if (Choice === Rock.toUpperCase()){
         return "ROCK";
-    } else if (Choice === "SCISSOR"){
+    } else if (Choice === Scissor.toUpperCase()){
         return "SCISSOR";
-    } else {
-        return "PAPER"
+    } else if (Choice === Paper.toUpperCase()){
+        return "PAPER";
     }    
 }
 
