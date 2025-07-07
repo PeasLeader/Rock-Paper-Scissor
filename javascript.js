@@ -1,80 +1,85 @@
 
 let humanScore = 0 ;
 let computerScore = 0;
-let Choice;
-
-
+let gameChoice;
+let personChoice ;
+let buttons = document.querySelectorAll('.btn')
+let Result = document.querySelector(".result")
+let Win = document.querySelector(".Win")
+let Lose = document.querySelector(".Lose")
+let gamesPlayed = 0 ; 
+let roundResult = document.querySelector('.roundResult')
+let text = document.querySelector(".text")
 
 function getComputerChoice() {
      const randomNumber = Math.random()
 
      if (randomNumber>=0 && randomNumber<1/3){
-        return "ROCK" ; 
+        return "ROCK"
      } else if (randomNumber>=1/3 && randomNumber < 2/3){
-       return "PAPER" ;
+       return "PAPER" 
      } else if (randomNumber>=2/3 && randomNumber <1) {
-      return "SCISSOR"; 
-     }  
+      return "SCISSOR"
+     }      
 }
 
 
 
-function getHumanChoice() {
-    Choice = prompt("Rock,Paper,Scissor").toUpperCase()
 
-   const Rock = "Rock"
-   const Paper = "Paper"
-   const Scissor = "Scissor"
-     
-    if (Choice === Rock.toUpperCase()){
-        return "ROCK";
-    } else if (Choice === Scissor.toUpperCase()){
-        return "SCISSOR";
-    } else if (Choice === Paper.toUpperCase()){
-        return "PAPER";
-    }    
-}
-
-
-
+function getHumanChoice(e){
+   personChoice = e.target.textContent
+   gamesPlayed++;
+   playRound(personChoice,getComputerChoice)
+   fiveTimes()
+} 
 
 
 function playRound(getHumanChoice,getComputerChoice){
 
-    const humanSelection = getHumanChoice();
     const computerSelection = getComputerChoice();
 
-    if (humanSelection === computerSelection){
-        console.log("Tie!")
-    } else if (humanSelection === "ROCK" && computerSelection === "SCISSOR"){
+    if (gamesPlayed >= 5){
+        text.textContent = "Round ended"
+
+        return false;
+    } else if (personChoice === computerSelection){
+        Result.textContent = "Tie!"   
+    } else if (personChoice === "ROCK" && computerSelection === "SCISSOR"){
         humanScore++
-        console.log("You get a Point!")
-    } else if (humanSelection === "SCISSOR" && computerSelection === "PAPER"){
+        Win.textContent = `${humanScore}`
+       Result.textContent = "You Win! Rock beats Scissor"
+    } else if (personChoice === "SCISSOR" && computerSelection === "PAPER"){
         humanScore++
-        console.log("You win! Scissor beats Paper")
-    } else if (humanSelection === "PAPER" && computerSelection === "ROCK"){
+         Win.textContent = `${humanScore}`
+        Result.textContent = "You win! Scissor beats Paper"
+    } else if (personChoice === "PAPER" && computerSelection === "ROCK"){
         humanScore++
-        console.log("You Win!")
+         Win.textContent = `${humanScore}`
+        Result.textContent = "You Win! Paper beats Rock"
     } else {
         computerScore++
-        console.log("You lose!")
+        Lose.textContent = `${computerScore}`
+        Result.textContent = `You lose! ${computerSelection} beats ${personChoice} `
     }
 }
 
-playRound(getHumanChoice,getComputerChoice);
-
-function playGame(){
-    playRound(getHumanChoice,getComputerChoice);
-    playRound(getHumanChoice,getComputerChoice);
-    playRound(getHumanChoice,getComputerChoice);
-    playRound(getHumanChoice,getComputerChoice);
+function fiveTimes(){
+    if (gamesPlayed===5 && humanScore > computerScore){
+        roundResult.textContent = "You win!"
+    } else if (gamesPlayed === 5 && computerScore > humanScore){
+        roundResult.textContent = "You lose!"
+    } else if (gamesPlayed === 5 && humanScore === computerScore){
+        roundResult.textContent = "Tie!" 
 }
-playGame()
-
-if (humanScore>computerScore){
-    console.log(`Human ${humanScore} and Machine ${computerScore} congrats Human`)
-} else if (computerScore>humanScore){
-    console.log(`Human ${humanScore} and computer ${computerScore} congrats machine`)
-} else {
-    console.log("Tie! hahah")
 }
+// if (humanScore>computerScore){
+//      console.log(`Human ${humanScore} and Machine ${computerScore} congrats Human`)
+//  } else if (computerScore>humanScore){
+//      console.log(`Human ${humanScore} and computer ${computerScore} congrats machine`)
+//  } else {
+//      console.log("Tie! hahah")
+// }
+
+buttons.forEach(button =>{
+    button.addEventListener("click",getHumanChoice)
+})
